@@ -14,3 +14,11 @@ or if you want to use audio setting or other things, you can modify the script, 
 _execute_play(key: StringName, type: AudioType, bus: StringName, pos: Variant, volume: float = 0.0, pitch: float = 1.0, loop: bool = false, audio_setting_index: int = -1) -> void  
 
 License is CC0, credit is appreciated but not required.
+
+Screenshots :
+![Screenshot_1](Screenshots/Screenshot_1.png)
+![Screenshot_2](Screenshots/Screenshot_2.png)
+![Screenshot_3](Screenshots/Screenshot_3.png)
+![Screenshot_4](Screenshots/Screenshot_4.png)
+![Screenshot_5](Screenshots/Screenshot_5.png)
+![Screenshot_6](Screenshots/Screenshot_6.png)
