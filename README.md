@@ -16,9 +16,12 @@ _execute_play(key: StringName, type: AudioType, bus: StringName, pos: Variant, v
 License is CC0, credit is appreciated but not required.
 
 Screenshots :
-![Screenshot_1](Screenshots/Screenshot_1.png)
-![Screenshot_2](Screenshots/Screenshot_2.png)
-![Screenshot_3](Screenshots/Screenshot_3.png)
-![Screenshot_4](Screenshots/Screenshot_4.png)
-![Screenshot_5](Screenshots/Screenshot_5.png)
-![Screenshot_6](Screenshots/Screenshot_6.png)
+
+<p align="center">
+	<img src="Screenshots/Screenshot_1.png" alt="Screenshot_1" width="500">
+	<img src="Screenshots/Screenshot_2.png" alt="Screenshot_2" width="500">
+	<img src="Screenshots/Screenshot_3.png" alt="Screenshot_3" width="500">
+	<img src="Screenshots/Screenshot_4.png" alt="Screenshot_4" width="500">
+	<img src="Screenshots/Screenshot_5.png" alt="Screenshot_5" width="500">
+	<img src="Screenshots/Screenshot_6.png" alt="Screenshot_6" width="500">
+</p>
