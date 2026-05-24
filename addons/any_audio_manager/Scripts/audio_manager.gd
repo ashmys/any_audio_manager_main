@@ -70,28 +70,28 @@ func is_playing(key: StringName) -> bool:
 			
 	return false
 
-func play_sfx_once(key: StringName) -> void:
+func play_sfx_once(key: StringName, volume: float = 0.0, pitch: float = 1.0, audio_setting_index: int = -1) -> void:
 	if is_playing(key):
 		return
-	_execute_play(key, AudioType.OMNI, audio_bus[1], null, 0.0, 1.0, false)
+	_execute_play(key, AudioType.OMNI, audio_bus[1], null, volume, pitch, false, audio_setting_index)
 
-func play_sfx(key: StringName) -> void:
-	_execute_play(key, AudioType.OMNI, audio_bus[1], null, 0.0, 1.0, false)
+func play_sfx(key: StringName, volume: float = 0.0, pitch: float = 1.0, audio_setting_index: int = -1) -> void:
+	_execute_play(key, AudioType.OMNI, audio_bus[1], null, volume, pitch, false, audio_setting_index)
 
-func play_sfx_2d(key: StringName, pos: Vector2) -> void:
-	_execute_play(key, AudioType.TWO_D, audio_bus[1], pos, 0.0, 1.0, false)
+func play_sfx_2d(key: StringName, pos: Vector2, volume: float = 0.0, pitch: float = 1.0, audio_setting_index: int = -1) -> void:
+	_execute_play(key, AudioType.TWO_D, audio_bus[1], pos, volume, pitch, false, audio_setting_index)
 
-func play_sfx_3d(key: StringName, pos: Vector3) -> void:
-	_execute_play(key, AudioType.THREE_D, audio_bus[1], pos, 0.0, 1.0, false)
+func play_sfx_3d(key: StringName, pos: Vector3, volume: float = 0.0, pitch: float = 1.0, audio_setting_index: int = -1) -> void:
+	_execute_play(key, AudioType.THREE_D, audio_bus[1], pos, volume, pitch, false, audio_setting_index)
 
-func play_music(key: StringName, loop: bool = true) -> void:
-	_execute_play(key, AudioType.OMNI, audio_bus[0], null, 0.0, 1.0, loop)
+func play_music(key: StringName, loop: bool = true, volume: float = 0.0, pitch: float = 1.0, audio_setting_index: int = -1) -> void:
+	_execute_play(key, AudioType.OMNI, audio_bus[0], null, volume, pitch, loop, audio_setting_index)
 
-func play_music_2d(key: StringName, pos: Vector2, loop: bool = true) -> void:
-	_execute_play(key, AudioType.TWO_D, audio_bus[0], pos, 0.0, 1.0, loop)
+func play_music_2d(key: StringName, pos: Vector2, loop: bool = true, volume: float = 0.0, pitch: float = 1.0, audio_setting_index: int = -1) -> void:
+	_execute_play(key, AudioType.TWO_D, audio_bus[0], pos, volume, pitch, loop, audio_setting_index)
 
-func play_music_3d(key: StringName, pos: Vector3, loop: bool = true) -> void:
-	_execute_play(key, AudioType.THREE_D, audio_bus[0], pos, 0.0, 1.0, loop)
+func play_music_3d(key: StringName, pos: Vector3, loop: bool = true, volume: float = 0.0, pitch: float = 1.0, audio_setting_index: int = -1) -> void:
+	_execute_play(key, AudioType.THREE_D, audio_bus[0], pos, volume, pitch, loop, audio_setting_index)
 
 func _execute_play(key: StringName, type: AudioType, bus: StringName, pos: Variant, volume: float = 0.0, pitch: float = 1.0, loop: bool = false, audio_setting_index: int = -1) -> void:
 	if bus == audio_bus[0] and _current_music_key == key:

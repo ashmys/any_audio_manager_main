@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://tyv64ffa2p6s"
-path="res://.godot/imported/Screenshot 6.png-7ac0947f646f35f9a48eb9fb68e9b864.ctex"
+uid="uid://cvatq8jdof2rn"
+path="res://.godot/imported/Screenshot 5.png-718e5b471c700e546d60898051792a1f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/any_audio_manager/Images/Screenshots/Screenshot 6.png"
-dest_files=["res://.godot/imported/Screenshot 6.png-7ac0947f646f35f9a48eb9fb68e9b864.ctex"]
+source_file="res://Screenshots/Screenshot 5.png"
+dest_files=["res://.godot/imported/Screenshot 5.png-718e5b471c700e546d60898051792a1f.ctex"]
 
 [params]
 
