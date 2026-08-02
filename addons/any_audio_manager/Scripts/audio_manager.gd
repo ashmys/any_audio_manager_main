@@ -6,7 +6,7 @@ enum AudioType { OMNI, TWO_D, THREE_D }
 @export var audio_library: AudioLibrary = null
 @export var audio_setting_library: AudioSettingLibrary = null
 
-@export var audio_bus: Array[StringName] = [&"Music", &"SFX"]
+@export var audio_bus: Array[StringName] = [&"Music", &"SFX", &"Ambience"]
 
 @export_group("Omni")
 @export_custom(PROPERTY_HINT_GROUP_ENABLE, "") var omni_enabled: bool = true
@@ -70,30 +70,24 @@ func is_playing(key: StringName) -> bool:
 			
 	return false
 
-func play_sfx_once(key: StringName, volume: float = 0.0, pitch: float = 1.0, audio_setting_index: int = -1) -> void:
+func play_once(key: StringName, setting_index: int = -1, audio_setting: AudioSetting = null) -> void:
 	if is_playing(key):
 		return
-	_execute_play(key, AudioType.OMNI, audio_bus[1], null, volume, pitch, false, audio_setting_index)
+	_play(key, AudioType.OMNI, null, audio_bus[1], setting_index, audio_setting, false)
 
-func play_sfx(key: StringName, volume: float = 0.0, pitch: float = 1.0, audio_setting_index: int = -1) -> void:
-	_execute_play(key, AudioType.OMNI, audio_bus[1], null, volume, pitch, false, audio_setting_index)
+func play(key: StringName, setting_index: int = -1, audio_setting: AudioSetting = null) -> void:
+	_play(key, AudioType.OMNI, null, audio_bus[1], setting_index, audio_setting, false)
 
-func play_sfx_2d(key: StringName, pos: Vector2, volume: float = 0.0, pitch: float = 1.0, audio_setting_index: int = -1) -> void:
-	_execute_play(key, AudioType.TWO_D, audio_bus[1], pos, volume, pitch, false, audio_setting_index)
+func play_2d(key: StringName, pos: Vector2, setting_index: int = -1, audio_setting: AudioSetting = null) -> void:
+	_play(key, AudioType.TWO_D, pos, audio_bus[1], setting_index, audio_setting, false)
 
-func play_sfx_3d(key: StringName, pos: Vector3, volume: float = 0.0, pitch: float = 1.0, audio_setting_index: int = -1) -> void:
-	_execute_play(key, AudioType.THREE_D, audio_bus[1], pos, volume, pitch, false, audio_setting_index)
+func play_3d(key: StringName, pos: Vector3, setting_index: int = -1, audio_setting: AudioSetting = null) -> void:
+	_play(key, AudioType.THREE_D, pos, audio_bus[1], setting_index, audio_setting, false)
 
-func play_music(key: StringName, loop: bool = true, volume: float = 0.0, pitch: float = 1.0, audio_setting_index: int = -1) -> void:
-	_execute_play(key, AudioType.OMNI, audio_bus[0], null, volume, pitch, loop, audio_setting_index)
+func play_music(key: StringName, setting_index: int = -1, audio_setting: AudioSetting = null) -> void:
+	_play(key, AudioType.OMNI, null, audio_bus[0], setting_index, audio_setting, false)
 
-func play_music_2d(key: StringName, pos: Vector2, loop: bool = true, volume: float = 0.0, pitch: float = 1.0, audio_setting_index: int = -1) -> void:
-	_execute_play(key, AudioType.TWO_D, audio_bus[0], pos, volume, pitch, loop, audio_setting_index)
-
-func play_music_3d(key: StringName, pos: Vector3, loop: bool = true, volume: float = 0.0, pitch: float = 1.0, audio_setting_index: int = -1) -> void:
-	_execute_play(key, AudioType.THREE_D, audio_bus[0], pos, volume, pitch, loop, audio_setting_index)
-
-func _execute_play(key: StringName, type: AudioType, bus: StringName, pos: Variant, volume: float = 0.0, pitch: float = 1.0, loop: bool = false, audio_setting_index: int = -1) -> void:
+func _play(key: StringName, type: AudioType, pos: Variant, bus: StringName = &"Master", setting_index: int = -1, audio_setting: AudioSetting = null, loop: bool = false) -> void:
 	if bus == audio_bus[0] and _current_music_key == key:
 		#print("Music already playing: ", key)
 		return
@@ -116,8 +110,10 @@ func _execute_play(key: StringName, type: AudioType, bus: StringName, pos: Varia
 		push_error("No player found for AudioType: %s" % type)
 		return
 
-	_setup_player_properties(player, stream_data, volume, pitch, bus)
-	_apply_optional_settings(player, audio_setting_index)
+	player.stream = stream_data
+	player.bus = bus
+	
+	_apply_optional_settings(player, setting_index, audio_setting)
 	_apply_stream_settings(player, loop, pos)
 	_track_active_instance(key, player)
 
@@ -139,37 +135,34 @@ func _load_stream_from_entry(entry: Resource) -> AudioStream:
 		
 	return stream
 
-func _setup_player_properties(player: Node, stream: AudioStream, volume: float, pitch: float, bus: StringName) -> void:
-	player.stream = stream
-	player.volume_db = volume
-	player.pitch_scale = pitch
-	player.bus = bus
-
-func _apply_optional_settings(player: Node, setting_index: int) -> void:
-	if setting_index < 0: return
-	if not audio_setting_library: return
-	if audio_setting_library.entries.is_empty(): return
+func _apply_optional_settings(player: Node, setting_index: int, audio_setting: AudioSetting) -> void:
+	if setting_index < 0:
+		if audio_setting:
+			_apply_audio_settings(player, audio_setting)
+			print("apply audio setting")
+			return
+		return
+	if not audio_setting_library: 
+		return
+	if audio_setting_library.entries.is_empty(): 
+		return
 	
-	var settings = audio_setting_library.entries[setting_index]
-	_apply_audio_settings(player, settings)
+	_apply_audio_settings(player, audio_setting_library.entries[setting_index])
 
 func _apply_audio_settings(player: Node, settings: AudioSetting) -> void:
-	if player.has_meta("mix_target"):
-		player.mix_target = settings.mix_target
-
-	if player.has_meta("max_polyphony"):
-		player.max_polyphony = settings.max_polyphony
-
-	if player.has_meta("playback_type"):
-		player.playback_type = settings.playback_type
-
-	if player.has_meta("panning_strength"):
-		player.panning_strength = settings.panning_strength
+	player.volume_db = settings.volume_db
+	player.pitch_scale = settings.pitch_scale
+	player.mix_target = settings.mix_target
+	player.max_polyphony = settings.max_polyphony
+	player.playback_type = settings.playback_type
 
 	if player is AudioStreamPlayer2D:
 		player.attenuation = settings.attenuation
 		player.max_distance = settings.max_distance_2d
 		player.area_mask = settings.area_mask_2d
+		
+		player.panning_strength = settings.panning_strength
+		return
 
 	if player is AudioStreamPlayer3D:
 		player.attenuation_model = settings.attenuation_model
@@ -183,6 +176,9 @@ func _apply_audio_settings(player: Node, settings: AudioSetting) -> void:
 		player.attenuation_filter_cutoff_hz = settings.attenuation_filter_cutoff_hz
 		player.attenuation_filter_db = settings.attenuation_filter_db
 		player.doppler_tracking = settings.doppler_tracking
+	
+		player.panning_strength = settings.panning_strength
+		return
 
 func _apply_stream_settings(player: Node, loop: bool, pos: Variant) -> void:
 	var s = player.stream
@@ -232,7 +228,7 @@ func stop_music() -> void:
 	_current_music_key = &""
 	_current_music_player = null
 
-func stop_by_key(key: StringName) -> void:
+func stop(key: StringName) -> void:
 	var instances = _active_players.get(key, [])
 	for player in instances:
 		if is_instance_valid(player):
@@ -243,7 +239,7 @@ func stop_by_key(key: StringName) -> void:
 		_current_music_key = &""
 		_current_music_player = null
 
-func stop_all_active() -> void:
+func stop_all() -> void:
 	for pool in [_pool_omni, _pool_2d, _pool_3d]:
 		for player in pool:
 			if is_instance_valid(player):
