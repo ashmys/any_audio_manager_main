@@ -86,15 +86,15 @@ func play_2d(key: StringName, pos: Vector2, setting_index: int = -1, audio_setti
 func play_3d(key: StringName, pos: Vector3, setting_index: int = -1, audio_setting: AudioSetting = null, bus: StringName = default_audio_bus[2], loop: bool = false) -> void:
 	_play(key, AudioType.THREE_D, pos, setting_index, audio_setting, bus, loop)
 
-func play_unique(key: StringName, setting_index: int = -1, audio_setting: AudioSetting = null, bus: StringName = default_audio_bus[1], loop: bool = false) -> void:
-	if key == _unique_key:
+func play_unique(key: StringName, setting_index: int = -1, audio_setting: AudioSetting = null, bus: StringName = default_audio_bus[1]) -> void:
+	if key == _unique_key and is_playing(key):
 		return
 
 	if is_playing(_unique_key):
 		stop(_unique_key)
 	
 	_unique_key = key
-	_play(key, AudioType.OMNI, null, setting_index, audio_setting, bus, loop)
+	_play(key, AudioType.OMNI, null, setting_index, audio_setting, bus, true)
 
 func _play(key: StringName, type: AudioType, pos: Variant, setting_index: int = -1, audio_setting: AudioSetting = null, bus: StringName = default_audio_bus[0], loop: bool = false) -> void:
 	var entry = _library_cache.get(key)
