@@ -3,21 +3,57 @@
 [ext_resource type="Script" uid="uid://bdobiakaaruu4" path="res://Examples/test.gd" id="1_lo7lc"]
 [ext_resource type="Script" uid="uid://be73xmvos8o41" path="res://addons/any_audio_manager/Scripts/Resources/audio_setting.gd" id="2_e8gqf"]
 
-[sub_resource type="Resource" id="Resource_e8gqf"]
+[sub_resource type="Resource" id="Resource_lo7lc"]
 script = ExtResource("2_e8gqf")
 metadata/_custom_type_script = "uid://be73xmvos8o41"
 
-[node name="Test" type="Node" unique_id=1094134176 node_paths=PackedStringArray("button")]
+[node name="Test" type="Node" unique_id=1094134176 node_paths=PackedStringArray("button_sfx", "button_music", "button_unique", "button_stop_all")]
 script = ExtResource("1_lo7lc")
-button = NodePath("Button")
-audio_setting = SubResource("Resource_e8gqf")
+music_setting = SubResource("Resource_lo7lc")
+button_sfx = NodePath("Control/ButtonSFX")
+button_music = NodePath("Control/ButtonMusic")
+button_unique = NodePath("Control/ButtonUnique")
+button_stop_all = NodePath("Control/ButtonStopAll")
 
-[node name="Button" type="Button" parent="." unique_id=222663192]
-offset_left = 69.0
-offset_top = 49.0
-offset_right = 170.0
-offset_bottom = 89.0
-text = "Play click"
+[node name="Control" type="Control" parent="." unique_id=818514279]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ButtonSFX" type="Button" parent="Control" unique_id=222663192]
+layout_mode = 0
+offset_left = 311.0
+offset_top = 341.0
+offset_right = 412.0
+offset_bottom = 381.0
+text = "Play SFX"
+
+[node name="ButtonMusic" type="Button" parent="Control" unique_id=999353390]
+layout_mode = 0
+offset_left = 468.0
+offset_top = 341.0
+offset_right = 569.0
+offset_bottom = 381.0
+text = "Play Music"
+
+[node name="ButtonUnique" type="Button" parent="Control" unique_id=138967106]
+layout_mode = 0
+offset_left = 627.0
+offset_top = 341.0
+offset_right = 728.0
+offset_bottom = 381.0
+text = "Play Unique"
+
+[node name="ButtonStopAll" type="Button" parent="Control" unique_id=1956815914]
+layout_mode = 0
+offset_left = 768.0
+offset_top = 341.0
+offset_right = 869.0
+offset_bottom = 381.0
+text = "Stop All"
 
 [node name="AudioStreams" type="Node" parent="." unique_id=773181736]
 

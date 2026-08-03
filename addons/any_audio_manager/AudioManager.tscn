@@ -3,16 +3,20 @@
 [ext_resource type="Script" uid="uid://cx04q44t4hl2w" path="res://addons/any_audio_manager/Scripts/audio_manager.gd" id="1_je6gq"]
 [ext_resource type="Script" uid="uid://cgcton68ihwfi" path="res://addons/any_audio_manager/Scripts/Resources/audio_entry.gd" id="2_xtu4j"]
 [ext_resource type="Script" uid="uid://c8hltc037dgci" path="res://addons/any_audio_manager/Scripts/Resources/audio_library.gd" id="3_p74pt"]
-[ext_resource type="Script" uid="uid://be73xmvos8o41" path="res://addons/any_audio_manager/Scripts/Resources/audio_setting.gd" id="4_c50nw"]
-[ext_resource type="Script" uid="uid://ba7om6b5pr0ql" path="res://addons/any_audio_manager/Scripts/audio_setting_library.gd" id="5_snu7c"]
+
+[sub_resource type="Resource" id="Resource_xtu4j"]
+resource_name = "Balance"
+script = ExtResource("2_xtu4j")
+key = &"Balance"
+path = "res://Examples/Audio/BGM/Balance.ogg"
+
+[sub_resource type="Resource" id="Resource_p74pt"]
+resource_name = "Gypsy-Doo-Wop"
+script = ExtResource("2_xtu4j")
+key = &"Gypsy-Doo-Wop"
+path = "res://Examples/Audio/BGM/Gypsy-Doo-Wop.ogg"
 
 [sub_resource type="Resource" id="Resource_c50nw"]
-resource_name = "time_for_adventure"
-script = ExtResource("2_xtu4j")
-key = &"time_for_adventure"
-path = "res://Examples/Audio/BGM/time_for_adventure.ogg"
-
-[sub_resource type="Resource" id="Resource_snu7c"]
 resource_name = "click"
 script = ExtResource("2_xtu4j")
 key = &"click"
@@ -21,19 +25,9 @@ path = "res://Examples/Audio/SFX/click.ogg"
 [sub_resource type="Resource" id="Resource_a7d4x"]
 script = ExtResource("3_p74pt")
 audio_dir = "res://Examples/Audio"
-entries = [SubResource("Resource_c50nw"), SubResource("Resource_snu7c")]
+entries = [SubResource("Resource_xtu4j"), SubResource("Resource_p74pt"), SubResource("Resource_c50nw")]
 metadata/_custom_type_script = "uid://c8hltc037dgci"
-
-[sub_resource type="Resource" id="Resource_5y6jx"]
-script = ExtResource("4_c50nw")
-
-[sub_resource type="Resource" id="Resource_xhwyo"]
-script = ExtResource("5_snu7c")
-entries = [SubResource("Resource_5y6jx")]
-metadata/_custom_type_script = "uid://ba7om6b5pr0ql"
 
 [node name="AudioManager" type="Node" unique_id=86541453]
 script = ExtResource("1_je6gq")
 audio_library = SubResource("Resource_a7d4x")
-audio_setting_library = SubResource("Resource_xhwyo")
-audio_bus_layout = null

@@ -23,6 +23,11 @@ buses/default_bus_layout="uid://bc4r4gfwt47jj"
 
 AudioManager="*uid://dngiuhq5ehbk6"
 
+[display]
+
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/any_audio_manager/plugin.cfg")
