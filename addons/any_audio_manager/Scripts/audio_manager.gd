@@ -179,9 +179,11 @@ func _apply_settings(player: Node, setting_index: int, audio_setting: AudioSetti
 func _apply_audio_settings(player: Node, settings: AudioSetting) -> void:
 	player.volume_db = settings.volume_db
 	player.pitch_scale = settings.pitch_scale
-	player.mix_target = settings.mix_target
 	player.max_polyphony = settings.max_polyphony
 	player.playback_type = settings.playback_type
+	if player is AudioStreamPlayer:
+		player.mix_target = settings.mix_target
+		return
 	if player is AudioStreamPlayer2D:
 		player.attenuation = settings.attenuation
 		player.max_distance = settings.max_distance_2d
@@ -204,11 +206,14 @@ func _apply_audio_settings(player: Node, settings: AudioSetting) -> void:
 		return
 
 func _apply_stream_settings(player: Node, loop: bool, pos: Variant) -> void:
-	var s = player.stream
-	if s is AudioStreamWAV:
-		s.loop_mode = loop
-	elif s is AudioStreamOggVorbis or s is AudioStreamMP3:
-		s.loop = loop
+	var stream: AudioStream = player.stream
+	if stream is AudioStreamWAV:
+		if loop:
+			stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
+		else:
+			stream.loop_mode = AudioStreamWAV.LOOP_DISABLED
+	elif stream is AudioStreamOggVorbis or stream is AudioStreamMP3:
+		stream.loop = loop
 	if player is AudioStreamPlayer2D:
 		player.global_position = pos
 	elif player is AudioStreamPlayer3D:
