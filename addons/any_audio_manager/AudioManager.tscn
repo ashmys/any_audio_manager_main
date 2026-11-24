@@ -31,3 +31,4 @@ metadata/_custom_type_script = "uid://c8hltc037dgci"
 [node name="AudioManager" type="Node" unique_id=86541453]
 script = ExtResource("1_je6gq")
 audio_library = SubResource("Resource_a7d4x")
+audio_2d_enabled = true
